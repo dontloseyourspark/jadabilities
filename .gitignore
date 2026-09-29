@@ -1,0 +1,11 @@
+# Old Framer export build artifacts
+node_modules/
+dist/
+package-lock.json
+*.tsbuildinfo
+
+# Design reference screenshots
+Pasted Image*.jpg
+
+# OS files
+.DS_Store
