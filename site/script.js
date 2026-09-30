@@ -59,14 +59,45 @@ slider.addEventListener("mouseenter", () => clearInterval(timer))
 slider.addEventListener("mouseleave", restart)
 go(0)
 
-// Contact form: opens the visitor's email app with the message filled in.
-// To receive submissions without an email app, point the form at a service
-// like Formspree (set action="https://formspree.io/f/XXXX" method="POST" and remove this block).
+// Contact form: submissions are sent via Web3Forms and emailed to the site owner.
+const WEB3FORMS_ACCESS_KEY = "4400bce0-e8df-4172-8374-045bbf5cbcba"
 const form = document.getElementById("contact-form")
-form.addEventListener("submit", (e) => {
+const status = document.getElementById("form-status")
+const submitBtn = form.querySelector('button[type="submit"]')
+
+form.addEventListener("submit", async (e) => {
   e.preventDefault()
   const data = new FormData(form)
-  const subject = `Website enquiry: ${data.get("service")}`
-  const body = `Name: ${data.get("name")}\nEmail: ${data.get("email")}\nService: ${data.get("service")}\n\n${data.get("message")}`
-  window.location.href = `mailto:jadeabilities@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+  const payload = {
+    access_key: WEB3FORMS_ACCESS_KEY,
+    subject: `New website enquiry: ${data.get("service")}`,
+    from_name: "Jadeabilities website",
+    name: data.get("name"),
+    email: data.get("email"),
+    service: data.get("service"),
+    message: data.get("message"),
+    botcheck: data.get("botcheck"),
+  }
+
+  submitBtn.disabled = true
+  status.textContent = "Sending…"
+  status.className = "form-status"
+
+  try {
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(payload),
+    })
+    const result = await res.json()
+    if (!res.ok || !result.success) throw new Error(result.message)
+    form.reset()
+    status.textContent = "Thanks! Your message has been sent. I'll be in touch soon."
+    status.classList.add("is-success")
+  } catch {
+    status.textContent = "Sorry, something went wrong. Please try again or email jadeabilities@gmail.com."
+    status.classList.add("is-error")
+  } finally {
+    submitBtn.disabled = false
+  }
 })
