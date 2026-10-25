@@ -297,9 +297,11 @@ h2 {
 .pricing-title { max-width: 620px; }
 .plans {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
   align-items: start;
+  max-width: 880px;
+  margin: 0 auto;
 }
 .plan {
   position: relative;
@@ -363,6 +365,28 @@ h2 {
   line-height: 1.35;
 }
 .per { font-size: 16px; color: var(--muted); letter-spacing: -0.05em; }
+.from { font-size: 16px; font-weight: 500; color: var(--muted); letter-spacing: -0.05em; }
+
+.tiers-label {
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--green);
+}
+.tiers ul { list-style: none; margin: 0; padding: 0; }
+.tiers li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 16px;
+  letter-spacing: -0.04em;
+}
+.tiers li:last-child { border-bottom: 0; }
+.tier-price { font-weight: 600; white-space: nowrap; }
 .btn-plan {
   display: block;
   text-align: center;
@@ -393,6 +417,7 @@ h2 {
 
 .fineprint {
   margin-top: 40px;
+  line-height: 1.6;
   text-align: center;
   font-size: 16px;
   letter-spacing: -0.05em;
@@ -586,8 +611,8 @@ h2 {
   .slide blockquote { font-size: 30px; }
 }
 
-@media (max-width: 1000px) {
-  .plans { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+@media (max-width: 809px) {
+  .plans { grid-template-columns: 1fr; max-width: 480px; }
   .plan-top p { min-height: 0; }
 }
 
